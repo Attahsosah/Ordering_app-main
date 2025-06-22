@@ -1,6 +1,5 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
-import { motion } from "framer-motion";
 import Link from 'next/link';
 
 function HeroCarousel() {
@@ -16,42 +15,6 @@ function HeroCarousel() {
         swipeable: true,
         interval: 5000,
         stopOnHover: true,
-    };
-
-    const slideVariants = {
-        hidden: { opacity: 0, scale: 1.1 },
-        visible: { 
-            opacity: 1, 
-            scale: 1, 
-            transition: { 
-                duration: 1.2,
-                ease: "easeOut"
-            } 
-        }
-    };
-
-    const textVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { 
-            opacity: 1, 
-            y: 0, 
-            transition: { 
-                duration: 0.8,
-                delay: 0.3
-            } 
-        }
-    };
-
-    const buttonVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { 
-            opacity: 1, 
-            y: 0, 
-            transition: { 
-                duration: 0.6,
-                delay: 0.6
-            } 
-        }
     };
 
     const heroSlides = [
@@ -91,11 +54,8 @@ function HeroCarousel() {
                 className="z-10 w-full mx-auto"
             >
                 {heroSlides.map((slide) => (
-                    <motion.div
+                    <div
                         key={slide.id}
-                        variants={slideVariants}
-                        initial="hidden"
-                        animate="visible"
                         className="relative h-[70vh] md:h-[80vh] lg:h-[90vh] flex items-center justify-center overflow-hidden"
                     >
                         {/* Background Image with Overlay */}
@@ -108,10 +68,7 @@ function HeroCarousel() {
 
                         {/* Content Container */}
                         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                            <motion.div
-                                variants={textVariants}
-                                className="mb-6"
-                            >
+                            <div className="mb-6">
                                 <h2 className="text-yellow-400 text-lg md:text-xl font-semibold mb-2 tracking-wider uppercase">
                                     {slide.subtitle}
                                 </h2>
@@ -121,121 +78,51 @@ function HeroCarousel() {
                                 <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
                                     {slide.description}
                                 </p>
-                            </motion.div>
+                            </div>
 
-                            <motion.div
-                                variants={buttonVariants}
-                                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-                            >
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                                 <Link href={slide.ctaLink}>
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/25"
-                                    >
+                                    <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/25 hover:scale-105 active:scale-95">
                                         {slide.cta}
-                                    </motion.button>
+                                    </button>
                                 </Link>
                                 <Link href="/cart">
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="border-2 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300"
-                                    >
+                                    <button className="border-2 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 hover:scale-105 active:scale-95">
                                         View Cart
-                                    </motion.button>
+                                    </button>
                                 </Link>
-                            </motion.div>
+                            </div>
                         </div>
 
                         {/* Floating Elements */}
                         <div className="absolute top-10 left-10 opacity-20">
-                            <motion.div
-                                animate={{ 
-                                    y: [0, -10, 0],
-                                    rotate: [0, 5, 0]
-                                }}
-                                transition={{ 
-                                    duration: 3, 
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
-                                className="text-6xl"
-                            >
+                            <div className="text-6xl animate-bounce">
                                 🍔
-                            </motion.div>
+                            </div>
                         </div>
 
                         <div className="absolute top-20 right-20 opacity-20">
-                            <motion.div
-                                animate={{ 
-                                    y: [0, 10, 0],
-                                    rotate: [0, -5, 0]
-                                }}
-                                transition={{ 
-                                    duration: 4, 
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
-                                className="text-5xl"
-                            >
+                            <div className="text-5xl animate-pulse">
                                 🍕
-                            </motion.div>
+                            </div>
                         </div>
 
                         <div className="absolute bottom-20 left-20 opacity-20">
-                            <motion.div
-                                animate={{ 
-                                    y: [0, -15, 0],
-                                    rotate: [0, 10, 0]
-                                }}
-                                transition={{ 
-                                    duration: 3.5, 
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
-                                className="text-4xl"
-                            >
+                            <div className="text-4xl animate-bounce" style={{ animationDelay: '1s' }}>
                                 🍟
-                            </motion.div>
+                            </div>
                         </div>
-
-                        <div className="absolute bottom-10 right-10 opacity-20">
-                            <motion.div
-                                animate={{ 
-                                    y: [0, 8, 0],
-                                    rotate: [0, -8, 0]
-                                }}
-                                transition={{ 
-                                    duration: 2.8, 
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
-                                className="text-5xl"
-                            >
-                                🥤
-                            </motion.div>
-                        </div>
-                    </motion.div>
+                    </div>
                 ))}
             </Carousel>
 
             {/* Scroll Indicator */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-            >
-                <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-yellow-400 text-2xl"
-                >
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+                <div className="text-yellow-400 text-2xl animate-bounce">
                     ↓
-                </motion.div>
+                </div>
                 <p className="text-yellow-400 text-sm mt-2 text-center">Scroll to explore</p>
-            </motion.div>
+            </div>
         </div>
     );
 }

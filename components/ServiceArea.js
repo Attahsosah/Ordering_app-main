@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 function ServiceArea() {
@@ -60,29 +59,6 @@ function ServiceArea() {
         }
     ];
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut"
-            }
-        }
-    };
-
     return (
         <section className="py-16 bg-gradient-to-b from-gray-800 to-gray-900 relative overflow-hidden">
             {/* Background Elements */}
@@ -91,15 +67,9 @@ function ServiceArea() {
                 <div className="absolute bottom-20 right-10 w-40 h-40 bg-yellow-400 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
             </div>
 
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-            >
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <motion.div variants={itemVariants} className="text-center mb-12">
+                <div className="text-center mb-12">
                     <div className="flex items-center justify-center space-x-4 mb-6">
                         <div className="w-16 h-1 bg-yellow-500"></div>
                         <span className="text-yellow-400 text-sm font-semibold tracking-wider uppercase">
@@ -115,24 +85,19 @@ function ServiceArea() {
                         From downtown to uptown, we've got you covered with lightning-fast delivery 
                         and convenient pickup locations across the city.
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Service Areas Grid */}
-                <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                     {serviceAreas.map((area, index) => (
-                        <motion.div
+                        <div
                             key={area.id}
-                            whileHover={{ scale: 1.05, y: -5 }}
-                            whileTap={{ scale: 0.95 }}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className={`relative group cursor-pointer ${
+                            className={`relative group cursor-pointer transition-all duration-300 hover:scale-105 hover:-translate-y-1 ${
                                 selectedArea === area.id ? 'ring-2 ring-yellow-500' : ''
                             }`}
                             onClick={() => setSelectedArea(area.id)}
                         >
-                            <div className={`bg-gradient-to-br ${area.color} p-6 rounded-2xl text-white relative overflow-hidden`}>
+                            <div className={`bg-gradient-to-br ${area.color} p-6 rounded-2xl text-white relative overflow-hidden transition-all duration-300`}>
                                 {/* Background Pattern */}
                                 <div className="absolute inset-0 opacity-10">
                                     <div className="absolute top-2 right-2 w-8 h-8 border-2 border-white rounded-full"></div>
@@ -167,21 +132,17 @@ function ServiceArea() {
 
                                 {/* Selection Indicator */}
                                 {selectedArea === area.id && (
-                                    <motion.div
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        className="absolute top-3 right-3 w-6 h-6 bg-white rounded-full flex items-center justify-center"
-                                    >
+                                    <div className="absolute top-3 right-3 w-6 h-6 bg-white rounded-full flex items-center justify-center">
                                         <span className="text-yellow-600 text-sm">✓</span>
-                                    </motion.div>
+                                    </div>
                                 )}
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
-                </motion.div>
+                </div>
 
                 {/* Interactive Map-like Display */}
-                <motion.div variants={itemVariants} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 mb-12">
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 mb-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Map Visualization */}
                         <div className="relative">
@@ -200,23 +161,18 @@ function ServiceArea() {
                                 <div className="absolute inset-0 p-4">
                                     <div className="grid grid-cols-2 grid-rows-2 gap-2 h-full">
                                         {serviceAreas.map((area, index) => (
-                                            <motion.div
+                                            <div
                                                 key={area.id}
-                                                className={`bg-gradient-to-br ${area.color} rounded-lg relative ${
+                                                className={`bg-gradient-to-br ${area.color} rounded-lg relative transition-all duration-300 hover:scale-105 ${
                                                     selectedArea === area.id ? 'ring-2 ring-white' : ''
                                                 }`}
-                                                whileHover={{ scale: 1.02 }}
                                                 onClick={() => setSelectedArea(area.id)}
                                             >
                                                 <div className="absolute inset-0 flex items-center justify-center">
                                                     <span className="text-white font-bold text-sm">{area.name}</span>
                                                 </div>
-                                                <motion.div
-                                                    className="absolute top-1 right-1 w-3 h-3 bg-white rounded-full"
-                                                    animate={{ scale: [1, 1.2, 1] }}
-                                                    transition={{ duration: 2, repeat: Infinity }}
-                                                ></motion.div>
-                                            </motion.div>
+                                                <div className="absolute top-1 right-1 w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
@@ -236,18 +192,12 @@ function ServiceArea() {
                         <div>
                             <h3 className="text-2xl font-Koulen text-white mb-6">Area Details</h3>
                             {serviceAreas.map(area => (
-                                <motion.div
+                                <div
                                     key={area.id}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ 
-                                        opacity: selectedArea === area.id ? 1 : 0.3,
-                                        x: selectedArea === area.id ? 0 : 20
-                                    }}
-                                    transition={{ duration: 0.3 }}
-                                    className={`mb-4 p-4 rounded-lg border ${
+                                    className={`mb-4 p-4 rounded-lg border transition-all duration-300 ${
                                         selectedArea === area.id 
-                                            ? 'border-yellow-500 bg-yellow-500/10' 
-                                            : 'border-white/10 bg-white/5'
+                                            ? 'border-yellow-500 bg-yellow-500/10 opacity-100' 
+                                            : 'border-white/10 bg-white/5 opacity-30'
                                     }`}
                                 >
                                     <h4 className="text-lg font-semibold text-white mb-2">{area.name}</h4>
@@ -271,24 +221,20 @@ function ServiceArea() {
                                             </div>
                                         </div>
                                     </div>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Pickup Locations */}
-                <motion.div variants={itemVariants} className="text-center">
+                <div className="text-center">
                     <h3 className="text-3xl font-Koulen text-white mb-8">Pickup Locations</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {pickupLocations.map((location, index) => (
-                            <motion.div
+                            <div
                                 key={location.name}
-                                whileHover={{ scale: 1.05, y: -5 }}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
-                                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300"
+                                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                             >
                                 <div className="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center mx-auto mb-4">
                                     <span className="text-2xl">📍</span>
@@ -303,16 +249,13 @@ function ServiceArea() {
                                         </span>
                                     ))}
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
-                </motion.div>
+                </div>
 
                 {/* CTA Section */}
-                <motion.div
-                    variants={itemVariants}
-                    className="text-center mt-12"
-                >
+                <div className="text-center mt-12">
                     <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 backdrop-blur-sm border border-yellow-500/30 rounded-2xl p-8">
                         <h3 className="text-2xl md:text-3xl font-Koulen text-white mb-4">
                             Ready to Order?
@@ -326,17 +269,13 @@ function ServiceArea() {
                                 placeholder="Enter your delivery address"
                                 className="flex-1 max-w-md bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500"
                             />
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/25"
-                            >
+                            <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/25 hover:scale-105">
                                 Check Delivery
-                            </motion.button>
+                            </button>
                         </div>
                     </div>
-                </motion.div>
-            </motion.div>
+                </div>
+            </div>
         </section>
     );
 }

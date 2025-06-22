@@ -15,9 +15,6 @@ import "swiper/css/pagination";
 // import required modules
 import { EffectCards, Autoplay, FreeMode, Pagination } from "swiper"
 
-
-const { motion } = require("framer-motion");
-
 function Items() {
     const [scrolled, setScrolled] = useState(false)
     const [timeLeft, setTimeLeft] = useState({
@@ -138,28 +135,6 @@ function Items() {
         }
     ];
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.6,
-                ease: "easeOut"
-            }
-        }
-    };
-
     return (
         <>
         <div className="items-center z-40 shadow-lg gradient from-black bg-gradient-to-b to-zinc-800   overflow-x-auto ">
@@ -182,20 +157,11 @@ function Items() {
 
 
         >   
-        <motion.div
-        initial={{
-            opacity:0,
-          }}
-          
-          transition={{
-            
-            duration:2.5,
-          }}
-          whileInView={{opacity:1, y:0}}
-         className="lg:mx-28 bg-no-repeat bg-blur bg-opacity-50 p-2 z-50 bg-yellow-600  ">
+        <div
+         className="lg:mx-28 bg-no-repeat bg-blur bg-opacity-50 p-2 z-50 bg-yellow-600 transition-opacity duration-1000">
 
             <h1 className=" pl-11 font-bold  text-yellow-700 items-center justify-center text-9xl py-10 font-Koulen bg-bg10" >The best food in town</h1>
-            </motion.div>
+            </div>
             {/* <div className="bg-bg10 ">
                 <div className="flex space-x-4 p-4">
 
@@ -240,10 +206,7 @@ function Items() {
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                <div
                     className="text-center mb-16"
                 >
                     <div className="flex items-center justify-center space-x-4 mb-6">
@@ -263,10 +226,7 @@ function Items() {
                     </p>
 
                     {/* Countdown Timer */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
+                    <div
                         className="flex justify-center items-center space-x-4 mt-8"
                     >
                         <div className="bg-yellow-500/20 backdrop-blur-sm border border-yellow-500/30 rounded-lg p-4">
@@ -277,20 +237,16 @@ function Items() {
                                 <div className="text-sm text-gray-400">Time Remaining</div>
                             </div>
                         </div>
-                    </motion.div>
-                </motion.div>
+                    </div>
+                </div>
 
                 {/* Offers Grid */}
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
+                <div
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
                     {offers.map((offer) => (
-                        <motion.div
+                        <div
                             key={offer.id}
-                            variants={itemVariants}
                             className="group relative"
                         >
                             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20">
@@ -355,24 +311,19 @@ function Items() {
                                     </div>
 
                                     {/* CTA Button */}
-                                    <motion.button
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
+                                    <button
                                         className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 rounded-lg transition-all duration-300 group-hover:shadow-lg group-hover:shadow-yellow-500/25"
                                     >
                                         Order Now
-                                    </motion.button>
+                                    </button>
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
-                </motion.div>
+                </div>
 
                 {/* Bottom CTA */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
+                <div
                     className="text-center mt-16"
                 >
                     <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 backdrop-blur-sm border border-yellow-500/30 rounded-2xl p-8">
@@ -383,15 +334,13 @@ function Items() {
                             Join our loyalty program and get exclusive offers, early access to deals, 
                             and special member-only discounts!
                         </p>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                        <button
                             className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/25"
                         >
                             Join Now - It's Free!
-                        </motion.button>
+                        </button>
                     </div>
-                </motion.div>
+                </div>
             </div>
         </section>
         </>

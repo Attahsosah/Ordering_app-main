@@ -3,32 +3,17 @@ import Layout from '../components/Layout'
 import '../styles/globals.css'
 import "swiper/css/bundle";
 
-const { motion } = require("framer-motion");
-
 function MyApp({ Component, pageProps, router}) {
   return (
     
   <ColorProvider className="overflow-hidden items-center">
     
-    <motion.div 
+    <div 
     key={router.route}
-    initial="pageinitial"
-    animate="pageAnimate"
-    transition="pageTransition"
-    variants={{
-      pageinitial:{
-        opactiy:0
-      },
-      pageAnimate:{
-        opacity:1
-      },
-      pageTransition:{
-        duration:5.0
-      }
-    }}
+    className="transition-opacity duration-500"
     >
       <Component {...pageProps} />
-      </motion.div>
+      </div>
     
   </ColorProvider>
   );

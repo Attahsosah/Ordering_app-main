@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { motion } from 'framer-motion';
 import { CartContext } from './context/AppContext';
 
 function FoodCard({ food }) {
@@ -32,26 +31,9 @@ function FoodCard({ food }) {
         }
     };
 
-    const cardVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { 
-            opacity: 1, 
-            y: 0, 
-            transition: { duration: 0.5 }
-        },
-        hover: {
-            y: -5,
-            transition: { duration: 0.2 }
-        }
-    };
-
     return (
-        <motion.div
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-            whileHover="hover"
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:bg-white/10 transition-all duration-300"
+        <div
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:bg-white/10 transition-all duration-300 hover:-translate-y-1"
         >
             {/* Food Image */}
             <div className="relative h-48 overflow-hidden">
@@ -82,17 +64,15 @@ function FoodCard({ food }) {
                 </p>
 
                 {/* Add to Cart Button */}
-                <motion.button
+                <button
                     onClick={addToCart}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-2"
+                    className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 hover:scale-105 active:scale-95"
                 >
                     <span>+</span>
                     <span>Add to Cart</span>
-                </motion.button>
+                </button>
             </div>
-        </motion.div>
+        </div>
     );
 }
 
