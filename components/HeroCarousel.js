@@ -82,14 +82,18 @@ function HeroCarousel() {
 
                             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                                 <Link href={slide.ctaLink}>
-                                    <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/25 hover:scale-105 active:scale-95">
-                                        {slide.cta}
-                                    </button>
+                                    <div>
+                                        <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/25 hover:scale-105 active:scale-95">
+                                            {slide.cta}
+                                        </button>
+                                    </div>
                                 </Link>
                                 <Link href="/cart">
-                                    <button className="border-2 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 hover:scale-105 active:scale-95">
-                                        View Cart
-                                    </button>
+                                    <div>
+                                        <button className="border-2 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 hover:scale-105 active:scale-95">
+                                            View Cart
+                                        </button>
+                                    </div>
                                 </Link>
                             </div>
                         </div>

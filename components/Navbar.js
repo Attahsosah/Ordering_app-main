@@ -32,7 +32,7 @@ function Navbar() {
             className={`sticky top-0 z-50 transition-all duration-300 ease-in-out ${
                 scrolled 
                     ? "bg-black/90 backdrop-blur-sm h-16" 
-                    : "bg-yellow-700/20 h-24"
+                    : "bg-yellow-700/20 h-20"
             }`}
         >
             <div className="container mx-auto px-4 h-full flex items-center justify-between">
@@ -42,9 +42,9 @@ function Navbar() {
                         <Image
                             src="/img/logo_transparent.png"
                             alt="Food Ordering App Logo"
-                            width={250}
-                            height={100}
-                            className="transition-transform duration-300 group-hover:scale-105 object-contain h-16 md:h-20"
+                            width={500}
+                            height={200}
+                            className="transition-transform duration-300 group-hover:scale-105 object-contain h-20 md:h-28 lg:h-32 -my-2"
                             priority
                         />
                     </Link>
@@ -53,14 +53,18 @@ function Navbar() {
                 {/* Navigation Links */}
                 <div className="hidden md:flex items-center space-x-8">
                     <Link href="#offer">
-                        <span className="text-white hover:text-yellow-400 transition-colors duration-200 cursor-pointer font-medium">
-                            Offers
-                        </span>
+                        <div>
+                            <span className="text-white hover:text-yellow-400 transition-colors duration-200 cursor-pointer font-medium">
+                                Offers
+                            </span>
+                        </div>
                     </Link>
                     <Link href="#menu">
-                        <span className="text-white hover:text-yellow-400 transition-colors duration-200 cursor-pointer font-medium">
-                            Our Menu
-                        </span>
+                        <div>
+                            <span className="text-white hover:text-yellow-400 transition-colors duration-200 cursor-pointer font-medium">
+                                Our Menu
+                            </span>
+                        </div>
                     </Link>
                     <span className="text-white hover:text-yellow-400 transition-colors duration-200 cursor-pointer font-medium">
                         Blog

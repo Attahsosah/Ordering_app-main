@@ -1,6 +1,6 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,6 +14,9 @@ import "swiper/css/pagination";
 
 // import required modules
 import { EffectCards, Autoplay, FreeMode, Pagination } from "swiper"
+import { db } from '../firebase';
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { CartContext } from './context/AppContext';
 
 function Items() {
     const [scrolled, setScrolled] = useState(false)
@@ -22,6 +25,9 @@ function Items() {
         minutes: 59,
         seconds: 59
     });
+    const [offers, setOffers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [cart, setCart] = useContext(CartContext);
 
     const scrollChange = () => {
         if (window.scrollY > 60){
@@ -60,80 +66,54 @@ function Items() {
         return () => clearInterval(timer);
     }, []);
 
-    const offers = [
-        {
-            id: 1,
-            title: "Mega Burger Combo",
-            originalPrice: 24.99,
-            discountedPrice: 16.99,
-            discount: 32,
-            image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop",
-            description: "Double patty burger with fries & drink",
-            badge: "🔥 HOT DEAL",
-            timeLeft: "Limited Time",
-            category: "Burgers"
-        },
-        {
-            id: 2,
-            title: "Pizza Party Pack",
-            originalPrice: 39.99,
-            discountedPrice: 29.99,
-            discount: 25,
-            image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=400&fit=crop",
-            description: "2 large pizzas + garlic bread + soda",
-            badge: "🎉 PARTY FAVORITE",
-            timeLeft: "Weekend Special",
-            category: "Pizza"
-        },
-        {
-            id: 3,
-            title: "Pasta Paradise",
-            originalPrice: 18.99,
-            discountedPrice: 12.99,
-            discount: 32,
-            image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=600&h=400&fit=crop",
-            description: "Creamy carbonara with garlic bread",
-            badge: "⭐ CUSTOMER CHOICE",
-            timeLeft: "Flash Sale",
-            category: "Pasta"
-        },
-        {
-            id: 4,
-            title: "Sweet Treats Bundle",
-            originalPrice: 15.99,
-            discountedPrice: 9.99,
-            discount: 38,
-            image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&h=400&fit=crop",
-            description: "Chocolate cake + ice cream + coffee",
-            badge: "🍰 DESSERT TIME",
-            timeLeft: "Afternoon Special",
-            category: "Desserts"
-        },
-        {
-            id: 5,
-            title: "Healthy Bowl",
-            originalPrice: 22.99,
-            discountedPrice: 17.99,
-            discount: 22,
-            image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop",
-            description: "Quinoa bowl with grilled chicken",
-            badge: "🥗 HEALTHY CHOICE",
-            timeLeft: "Lunch Special",
-            category: "Salads"
-        },
-        {
-            id: 6,
-            title: "Drinks & Sides",
-            originalPrice: 12.99,
-            discountedPrice: 7.99,
-            discount: 38,
-            image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&h=400&fit=crop",
-            description: "Any drink + fries + onion rings",
-            badge: "🥤 COMBO DEAL",
-            timeLeft: "Happy Hour",
-            category: "Sides"
-        }
-    ];
+    useEffect(() => {
+        // Fetch offers from Firebase
+        const fetchOffers = async () => {
+            try {
+                const offersSnapshot = await getDocs(collection(db, "Offers"));
+                const offersList = offersSnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setOffers(offersList);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching offers:", error);
+                setLoading(false);
+            }
+        };
+
+        // Real-time updates for offers
+        const unsubscribe = onSnapshot(collection(db, "Offers"), (snapshot) => {
+            const offersList = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setOffers(offersList);
+        });
+
+        fetchOffers();
+
+        return () => unsubscribe();
+    }, []);
+
+    const addOfferToCart = (offer) => {
+        // Convert offer to food item format for cart
+        const foodItem = {
+            id: offer.id,
+            name: offer.title,
+            price: offer.discountedPrice.toString(),
+            Type: offer.category,
+            image: offer.image,
+            description: offer.description,
+            quantity: 1,
+            isOffer: true,
+            originalPrice: offer.originalPrice,
+            discount: offer.discount
+        };
+        
+        setCart(prevCart => [...prevCart, foodItem]);
+    };
 
     return (
         <>
@@ -222,7 +202,7 @@ function Items() {
                     </h2>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto">
                         Limited time offers that will make your taste buds dance! 
-                        Don't miss out on these incredible savings.
+                        Don&apos;t miss out on these incredible savings.
                     </p>
 
                     {/* Countdown Timer */}
@@ -241,86 +221,107 @@ function Items() {
                 </div>
 
                 {/* Offers Grid */}
-                <div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                >
-                    {offers.map((offer) => (
-                        <div
-                            key={offer.id}
-                            className="group relative"
-                        >
-                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20">
-                                {/* Image Container */}
-                                <div className="relative h-48 overflow-hidden">
-                                    <img
-                                        src={offer.image}
-                                        alt={offer.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                    />
-                                    
-                                    {/* Discount Badge */}
-                                    <div className="absolute top-4 left-4">
-                                        <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                                            -{offer.discount}%
-                                        </span>
-                                    </div>
-
-                                    {/* Category Badge */}
-                                    <div className="absolute top-4 right-4">
-                                        <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-semibold">
-                                            {offer.category}
-                                        </span>
-                                    </div>
-
-                                    {/* Special Badge */}
-                                    <div className="absolute bottom-4 left-4">
-                                        <span className="bg-yellow-500/90 backdrop-blur-sm text-black px-3 py-1 rounded-full text-xs font-bold">
-                                            {offer.badge}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* Content */}
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors duration-300">
-                                        {offer.title}
-                                    </h3>
-                                    
-                                    <p className="text-gray-400 text-sm mb-4">
-                                        {offer.description}
-                                    </p>
-
-                                    {/* Pricing */}
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="flex items-center space-x-3">
-                                            <span className="text-2xl font-bold text-yellow-400">
-                                                ${offer.discountedPrice}
-                                            </span>
-                                            <span className="text-gray-500 line-through">
-                                                ${offer.originalPrice}
+                {loading ? (
+                    <div className="flex justify-center items-center h-64">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500"></div>
+                    </div>
+                ) : offers.length === 0 ? (
+                    <div className="text-center py-16">
+                        <div className="w-24 h-24 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span className="text-4xl">🎁</span>
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-4">No Special Offers Available</h3>
+                        <p className="text-gray-400">
+                            Check back soon for amazing deals and discounts!
+                        </p>
+                    </div>
+                ) : (
+                    <div
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    >
+                        {offers.map((offer) => (
+                            <div
+                                key={offer.id}
+                                className="group relative"
+                            >
+                                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20">
+                                    {/* Image Container */}
+                                    <div className="relative h-48 overflow-hidden">
+                                        <img
+                                            src={offer.image || 'https://images.unsplash.com/photo-1504674900240-9c2916b9d4e8?w=600&h=400&fit=crop'}
+                                            alt={offer.title}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        />
+                                        
+                                        {/* Discount Badge */}
+                                        <div className="absolute top-4 left-4">
+                                            <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                                                -{offer.discount}%
                                             </span>
                                         </div>
-                                        <span className="text-green-400 text-sm font-semibold">
-                                            Save ${(offer.originalPrice - offer.discountedPrice).toFixed(2)}
-                                        </span>
+
+                                        {/* Category Badge */}
+                                        <div className="absolute top-4 right-4">
+                                            <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-semibold">
+                                                {offer.category}
+                                            </span>
+                                        </div>
+
+                                        {/* Special Badge */}
+                                        {offer.badge && (
+                                            <div className="absolute bottom-4 left-4">
+                                                <span className="bg-yellow-500/90 backdrop-blur-sm text-black px-3 py-1 rounded-full text-xs font-bold">
+                                                    {offer.badge}
+                                                </span>
+                                            </div>
+                                        )}
                                     </div>
 
-                                    {/* Time Left */}
-                                    <div className="text-yellow-400 text-sm font-medium mb-4">
-                                        ⏰ {offer.timeLeft}
-                                    </div>
+                                    {/* Content */}
+                                    <div className="p-6">
+                                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors duration-300">
+                                            {offer.title}
+                                        </h3>
+                                        
+                                        <p className="text-gray-400 text-sm mb-4">
+                                            {offer.description}
+                                        </p>
 
-                                    {/* CTA Button */}
-                                    <button
-                                        className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 rounded-lg transition-all duration-300 group-hover:shadow-lg group-hover:shadow-yellow-500/25"
-                                    >
-                                        Order Now
-                                    </button>
+                                        {/* Pricing */}
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div className="flex items-center space-x-3">
+                                                <span className="text-2xl font-bold text-yellow-400">
+                                                    ${offer.discountedPrice}
+                                                </span>
+                                                <span className="text-gray-500 line-through">
+                                                    ${offer.originalPrice}
+                                                </span>
+                                            </div>
+                                            <span className="text-green-400 text-sm font-semibold">
+                                                Save ${(offer.originalPrice - offer.discountedPrice).toFixed(2)}
+                                            </span>
+                                        </div>
+
+                                        {/* Time Left */}
+                                        {offer.timeLeft && (
+                                            <div className="text-yellow-400 text-sm font-medium mb-4">
+                                                ⏰ {offer.timeLeft}
+                                            </div>
+                                        )}
+
+                                        {/* CTA Button */}
+                                        <button
+                                            onClick={() => addOfferToCart(offer)}
+                                            className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 rounded-lg transition-all duration-300 group-hover:shadow-lg group-hover:shadow-yellow-500/25"
+                                        >
+                                            Add to Cart
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
 
                 {/* Bottom CTA */}
                 <div
@@ -337,7 +338,7 @@ function Items() {
                         <button
                             className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/25"
                         >
-                            Join Now - It's Free!
+                            Join Now - It&apos;s Free!
                         </button>
                     </div>
                 </div>

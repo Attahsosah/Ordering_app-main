@@ -42,13 +42,12 @@ function Footer() {
                             </div>
                             <div>
                                 <h3 className="text-xl font-Koulen text-white">FoodHub</h3>
-                                <p className="text-yellow-400 text-sm">Delicious Delivered</p>
+                                <p className="text-yellow-400 text-sm mb-4 leading-relaxed">
+                                    Bringing the world&apos;s finest cuisines to your doorstep. 
+                                    From sizzling burgers to gourmet pizzas, we&apos;ve got your cravings covered.
+                                </p>
                             </div>
                         </div>
-                        <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-                            Bringing the world's finest cuisines to your doorstep. 
-                            From sizzling burgers to gourmet pizzas, we've got your cravings covered.
-                        </p>
                         
                         {/* Newsletter Signup - Compact */}
                         <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-3">

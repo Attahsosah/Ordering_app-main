@@ -1,59 +1,59 @@
 import { useState } from 'react';
 
 function ServiceArea() {
-    const [selectedArea, setSelectedArea] = useState('downtown');
+    const [selectedArea, setSelectedArea] = useState('westlands');
 
     const serviceAreas = [
         {
-            id: 'downtown',
-            name: 'Downtown',
+            id: 'westlands',
+            name: 'Westlands',
             deliveryTime: '15-20 min',
             coverage: '100%',
             color: 'from-yellow-500 to-yellow-600',
-            neighborhoods: ['Financial District', 'Chinatown', 'Little Italy', 'SoHo']
+            neighborhoods: ['Westlands', 'Parklands', 'Kilimani', 'Lavington']
         },
         {
-            id: 'midtown',
-            name: 'Midtown',
+            id: 'cbd',
+            name: 'CBD',
             deliveryTime: '20-25 min',
             coverage: '95%',
             color: 'from-yellow-400 to-yellow-500',
-            neighborhoods: ['Times Square', 'Chelsea', 'Gramercy', 'Murray Hill']
+            neighborhoods: ['Nairobi CBD', 'Upperhill', 'Hurlingham', 'Yaya']
         },
         {
-            id: 'uptown',
-            name: 'Uptown',
+            id: 'eastlands',
+            name: 'Eastlands',
             deliveryTime: '25-30 min',
             coverage: '90%',
             color: 'from-yellow-300 to-yellow-400',
-            neighborhoods: ['Upper East Side', 'Upper West Side', 'Harlem', 'Washington Heights']
+            neighborhoods: ['Buruburu', 'Donholm', 'Embakasi', 'South B']
         },
         {
-            id: 'brooklyn',
-            name: 'Brooklyn',
+            id: 'southlands',
+            name: 'Southlands',
             deliveryTime: '30-35 min',
             coverage: '85%',
             color: 'from-yellow-200 to-yellow-300',
-            neighborhoods: ['Williamsburg', 'DUMBO', 'Park Slope', 'Brooklyn Heights']
+            neighborhoods: ['Karen', 'Langata', 'South C', 'Kikuyu']
         }
     ];
 
     const pickupLocations = [
         {
-            name: 'Downtown Hub',
-            address: '123 Main St, Downtown',
+            name: 'Westlands Hub',
+            address: 'Westlands Mall, Westlands',
             hours: '24/7',
             features: ['Self-Pickup', 'Contactless', 'Drive-Thru']
         },
         {
-            name: 'Midtown Express',
-            address: '456 Broadway, Midtown',
+            name: 'CBD Express',
+            address: 'Nairobi CBD, Kimathi Street',
             hours: '6AM-12AM',
             features: ['Quick Pickup', 'Mobile Orders', 'Curbside']
         },
         {
-            name: 'Uptown Station',
-            address: '789 Central Park West',
+            name: 'Kilimani Station',
+            address: 'Kilimani Mall, Kilimani',
             hours: '7AM-11PM',
             features: ['Parking Available', 'Indoor Seating', 'WiFi']
         }
@@ -82,7 +82,7 @@ function ServiceArea() {
                         We Deliver Everywhere
                     </h2>
                     <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        From downtown to uptown, we've got you covered with lightning-fast delivery 
+                        From downtown to uptown, we&apos;ve got you covered with lightning-fast delivery 
                         and convenient pickup locations across the city.
                     </p>
                 </div>

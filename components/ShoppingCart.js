@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { CartContext } from './context/AppContext';
+import Link from 'next/link';
 
 function ShoppingCart() {
   const [cart, setCart] = useContext(CartContext);
@@ -43,17 +44,19 @@ function ShoppingCart() {
             <span className="text-4xl">🛒</span>
           </div>
           <h2 className="text-2xl font-bold text-white mb-4">Your cart is empty</h2>
-          <p className="text-gray-400 mb-8 max-w-md">
-            Looks like you haven't added any delicious items to your cart yet. 
+          <p className="text-gray-400 mb-6">
+            Looks like you haven&apos;t added any delicious items to your cart yet. 
             Start exploring our menu to find something tasty!
           </p>
-          <a 
+          <Link 
             href="/"
             className="inline-flex items-center px-6 py-3 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400 transition-colors duration-300"
           >
-            <span className="mr-2">🍽️</span>
-            Browse Menu
-          </a>
+            <div className="flex items-center">
+              <span className="mr-2">🍽️</span>
+              Browse Menu
+            </div>
+          </Link>
         </div>
       </div>
     );
@@ -83,7 +86,17 @@ function ShoppingCart() {
                   <div className="flex-1 min-w-0">
                     <h3 className="text-lg font-semibold text-white truncate">{item.name}</h3>
                     <p className="text-gray-400 text-sm">{item.Type}</p>
-                    <p className="text-yellow-400 font-bold">${item.price}</p>
+                    {item.isOffer ? (
+                      <div className="flex items-center space-x-2">
+                        <p className="text-yellow-400 font-bold">${item.price}</p>
+                        <p className="text-gray-500 line-through text-sm">${item.originalPrice}</p>
+                        <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                          -{item.discount}%
+                        </span>
+                      </div>
+                    ) : (
+                      <p className="text-yellow-400 font-bold">${item.price}</p>
+                    )}
                   </div>
                   
                   <div className="flex items-center space-x-2">
@@ -105,9 +118,20 @@ function ShoppingCart() {
                   </div>
                   
                   <div className="text-right">
-                    <p className="text-yellow-400 font-bold">
-                      ${((item.quantity || 1) * parseFloat(item.price)).toFixed(2)}
-                    </p>
+                    {item.isOffer ? (
+                      <div className="text-right">
+                        <p className="text-yellow-400 font-bold">
+                          ${((item.quantity || 1) * parseFloat(item.price)).toFixed(2)}
+                        </p>
+                        <p className="text-gray-500 line-through text-sm">
+                          ${((item.quantity || 1) * parseFloat(item.originalPrice)).toFixed(2)}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="text-yellow-400 font-bold">
+                        ${((item.quantity || 1) * parseFloat(item.price)).toFixed(2)}
+                      </p>
+                    )}
                   </div>
                   
                   <button

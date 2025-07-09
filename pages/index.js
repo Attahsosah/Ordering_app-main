@@ -18,7 +18,7 @@ export default function Home() {
             Welcome to the Food Ordering App
           </h1>
           <p className="mt-6 max-w-2xl mx-auto text-lg text-center text-gray-300">
-            Craving something delicious? You're in the right place! Discover a world of mouthwatering burgers, pizzas, fresh salads, and decadent desserts—all at your fingertips.
+            Craving something delicious? You&apos;re in the right place! Discover a world of mouthwatering burgers, pizzas, fresh salads, and decadent desserts—all at your fingertips.
           </p>
         </main>
         
